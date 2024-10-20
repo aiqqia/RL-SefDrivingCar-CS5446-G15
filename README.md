@@ -10,41 +10,41 @@ We need to first create and activate a Python virtual environment named `rl-play
 
 ## Steps
 
-# Step 1: Navigate to your project directory
+### Step 1: Navigate to your project directory
 ```
 cd /path/to/your/project
 ```
-# Step 2: Create the virtual environment
+### Step 2: Create the virtual environment
 ```
 python -m venv rl-playground
 ```
 
-# Step 3: Activate the virtual environment
-# On Windows:
+### Step 3: Activate the virtual environment
+#### On Windows:
 ```
 rl-playground\Scripts\activate
 ```
-# On macOS/Linux:
+#### On macOS/Linux:
 ```
 source rl-playground/bin/activate
 ```
 
-# Step 4: Verify the virtual environment is active
-# macOS/Linux:
+### Step 4: Verify the virtual environment is active
+#### macOS/Linux:
 ```
 which python
 ```
-# Windows:
+#### Windows:
 ```
 where python
 ```
 
-# Step 5: Install required packages
+### Step 5: Install required packages
 ```
 pip install -r requirements.txt
 ```
 
-# Step 6: Deactivate the virtual environment when finished
+### Step 6: Deactivate the virtual environment when finished
 ```
 deactivate
 ```
