@@ -1,17 +1,16 @@
-from players.player import Player
+from players.base_player import Player
 import numpy as np
 
 
 class DeepTrafficPlayer(Player):
     def decide_with_vision(self, vision, score, end_episode, cache=False, is_training=True):
-        if cache:
-            self.car.move(self.action_cache)
-            return None, None
+        # if cache:
+        #     self.car.move(self.action_cache)
+        #     return None, None
 
         action = 'M'  # Default action
-        if is_training and not cache:
+        if is_training:
             self.agent.remember(score, vision, end_episode=end_episode, is_training=is_training)
-
         if self.car.switching_lane < 0:
             q_values, action = self.agent.act(vision, is_training=is_training)
             self.agent_action = True

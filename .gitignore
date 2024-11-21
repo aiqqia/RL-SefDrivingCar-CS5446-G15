@@ -1,9 +1,11 @@
 models/**/*
-.idea/workspace.xml
-.idea/workspace.xml
 *.pyc
 log/*
 *.psd
 *.svg
+rl_env
 rl-playground
 .DS_Store
+rl_playground
+logs/*
+plots/*
