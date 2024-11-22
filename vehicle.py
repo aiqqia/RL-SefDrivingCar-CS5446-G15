@@ -16,9 +16,6 @@ from config import (
     VISUALENABLED,
     EMERGENCY_BRAKE_MAX_SPEED_DIFF,
     ROAD_VIEW_OFFSET,
-    VISUAL_VISION_B,
-    VISUAL_VISION_F,
-    VISUAL_VISION_W,
 )
 
 
@@ -491,23 +488,3 @@ class Car:
         vision = np.reshape(vision, [VISION_F + VISION_B + 1, VISION_W * 2 + 1, 1])
         return vision
 
-    # Function not being used at all (used in advanced view)
-    def get_subjective_vision(self):
-        min_x = min(max(0, self.lane - 1 - VISUAL_VISION_W), 6)
-        max_x = min(max(0, self.lane - 1 + VISUAL_VISION_W), 6)
-        input_min_xx = self.lane - 1 - VISUAL_VISION_W
-        input_max_xx = self.lane - 1 + VISUAL_VISION_W
-
-        input_min_y = int(math.floor(self.y / 10.0)) - VISUAL_VISION_F
-        input_max_y = int(math.floor(self.y / 10.0)) + VISUAL_VISION_B
-        min_y = min(max(0, input_min_y), 100)
-        max_y = min(max(0, input_max_y), 100)
-
-        cars = [
-            (self.lane_map[y][x].lane, int(math.floor(self.lane_map[y][x].y / 10.0)))
-            for y in range(min_y, max_y + 1)
-            for x in range(min_x, max_x + 1)
-            if self.lane_map[y][x] != 0 and self.lane_map[y][x].subject is not None
-        ]
-
-        return cars

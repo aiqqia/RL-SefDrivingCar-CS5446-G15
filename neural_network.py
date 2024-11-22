@@ -3,8 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import os
 import numpy as np
-from config import VISION_W, VISION_F, VISION_B, ROUND, DL_IS_TRAINING
-import logging
+from config import VISION_W, VISION_F, VISION_B,  DL_IS_TRAINING
 import random
 from logging_config import setup_logger
 

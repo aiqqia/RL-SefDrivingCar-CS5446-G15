@@ -65,7 +65,7 @@ PREDEFINED_MAX_CAR = config.MAX_SIMULATION_CAR  # 60
 
 
 # New episode/game round
-while episode_count < config.MAX_EPISODE + config.TESTING_EPISODE * 3:      # 2000 + 200*3
+while episode_count < config.MAX_EPISODE:
     is_training = config.DL_IS_TRAINING and episode_count < config.MAX_EPISODE and not config.VISUALENABLED     #False and ep_count< 2000 and not True
 
     # Score object
@@ -180,20 +180,7 @@ while episode_count < config.MAX_EPISODE + config.TESTING_EPISODE * 3:      # 20
         # Initialize cache flag for memory buffer management
         cache = False
 
-        # Check if we should cache the current state-action pair
-        if delay_count < config.DELAY and not game_ended and is_training:
-            # DELAY is used to collect multiple frames before making a decision
-            # This helps create a more stable learning environment by reducing
-            # rapid fluctuations in state observations
-            
-            delay_count += 1  # Increment the delay counter
-            # cache = True      # Set cache flag to accumulate experiences
-        else:
-            # Reset delay counter when:
-            # 1. We've reached our desired delay count, or
-            # 2. Game has ended, or
-            # 3. We're not in training mode
-            delay_count = 0
+
 
         # This caching mechanism serves several purposes:
         # 1. Frame Skip: Not every frame needs to be processed for learning
@@ -249,7 +236,7 @@ while episode_count < config.MAX_EPISODE + config.TESTING_EPISODE * 3:      # 20
                                         end_episode=True,
                                         is_training=is_training)
             break
-        elif frame >= config.MAX_FRAME_COUNT: # abs(score.score) >= config.GOAL:
+        elif frame >= config.MAX_FRAME_COUNT:
             game_ended = True
 
         # Show statistics
@@ -289,32 +276,4 @@ while episode_count < config.MAX_EPISODE + config.TESTING_EPISODE * 3:      # 20
         alternate_line_switching.append(subject_car.alternate_line_switching)
         hard_brake_avg.append(subject_car.hard_brake_count)
         
-        # Every TESTING_EPISODE episodes, calculate and print comprehensive statistics
-        if (episode_count - config.MAX_EPISODE) % config.TESTING_EPISODE == 0:
-            # Calculate averages and medians for key metrics
-            avg_speed = np.average(speed_counter_avg)
-            median_speed = np.median(speed_counter_avg)
-            avg_hard_brake = np.average(hard_brake_avg)
-            median_hard_brake = np.median(hard_brake_avg)
-            avg_alternate_line_switching = np.average(alternate_line_switching)
-            median_alternate_line_switching = np.median(alternate_line_switching)
-            
-            # Print detailed statistics
-            print("Car:{},Speed:(Mean: {}, Median: {}),Hard_Brake:(Mean: {}, Median: {}), Line::(Mean: {}, Median: {})"
-                .format(PREDEFINED_MAX_CAR, avg_speed, median_speed, avg_hard_brake, median_hard_brake,
-                        avg_alternate_line_switching, median_alternate_line_switching))
-            
-            # Test agent performance with different traffic densities
-            # Changes PREDEFINED_MAX_CAR between 20, 40, and 60 cars
-            if abs(PREDEFINED_MAX_CAR - 40) < 1:
-                # Testing with 40 cars
-                PREDEFINED_MAX_CAR = 20  # Switch to testing with 20 cars
-            elif abs(PREDEFINED_MAX_CAR - 20) < 1:
-                # Testing with 20 cars
-                PREDEFINED_MAX_CAR = 60  # Switch to testing with 60 cars
-                
-            # Reset statistics collectors for next testing batch
-            speed_counter_avg = []
-            hard_brake_avg = []
-            alternate_line_switching = []
 logger.info(f"Training completed. Total episodes: {episode_count}, Action frequencies: {action_stats}")
